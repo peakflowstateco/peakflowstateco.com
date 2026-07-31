@@ -299,7 +299,7 @@
   .scroll-indicator{
     grid-column: 1 / -1;
     justify-self: center;
-    display: flex;
+    display: none; /* hidden on desktop - enabled only inside the mobile media query below */
     flex-direction: column;
     align-items: center;
     gap: 8px;
@@ -904,7 +904,7 @@
     .hero-mark-wrap{ order: -1; max-width: 200px; margin: 0 auto 2px; }
     .hero-sub{ max-width: 100%; margin-bottom: 22px; }
     .hero-note{ margin-top: 12px; }
-    .scroll-indicator{ margin-top: 4px; }
+    .scroll-indicator{ display: flex; margin-top: 4px; }
     .section{ padding: 12px 22px 64px; }
     .check-grid{ grid-template-columns: 1fr; }
   }
@@ -1348,6 +1348,30 @@
   }
   document.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
+
+  /* ============================================================ */
+  /* IN-PAGE SMOOTH SCROLL (no URL hash change on click)             */
+  /* ============================================================ */
+  /* Using scrollIntoView via JS instead of relying on the anchor's  */
+  /* default jump keeps the address bar clean - so reloading the    */
+  /* page always lands back at the top, never mid-page.             */
+  function smoothScrollToSelector(selector){
+    var target = document.querySelector(selector);
+    if(!target) return;
+    target.scrollIntoView({
+      behavior: (typeof reducedMotion !== 'undefined' && reducedMotion) ? 'auto' : 'smooth',
+      block: 'start'
+    });
+  }
+
+  document.querySelectorAll('a[href^="#"]').forEach(function(link){
+    link.addEventListener('click', function(e){
+      var targetSelector = link.getAttribute('href');
+      if(!targetSelector || targetSelector === '#') return;
+      e.preventDefault();
+      smoothScrollToSelector(targetSelector);
+    });
+  });
 
   /* ============================================================ */
   /* SCROLL REVEAL                                                  */
