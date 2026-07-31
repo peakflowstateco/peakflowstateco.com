@@ -296,6 +296,54 @@
   }
   @keyframes draw{ to{ stroke-dashoffset: 0; } }
 
+  .scroll-indicator{
+    grid-column: 1 / -1;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    color: var(--text-low);
+    cursor: pointer;
+    opacity: 0;
+    animation: fade-in-indicator 1s var(--ease) 1.3s forwards;
+    transition: color 0.3s var(--ease);
+  }
+  .scroll-indicator:hover,
+  .scroll-indicator:focus-visible{ color: var(--mint); }
+  .scroll-indicator:focus-visible{ outline: 2px solid var(--mint); outline-offset: 4px; border-radius: 8px; }
+
+  .scroll-label{
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .scroll-chevron-ring{
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: bounce-chevron 2.2s ease-in-out infinite;
+  }
+  .scroll-chevron-ring svg{
+    width: 15px;
+    height: 15px;
+    color: var(--mint);
+  }
+
+  @keyframes bounce-chevron{
+    0%, 100%{ transform: translateY(0); }
+    50%{ transform: translateY(6px); }
+  }
+  @keyframes fade-in-indicator{ to{ opacity: 1; } }
+
   /* ============================= */
   /* SECTION HEADERS                */
   /* ============================= */
@@ -304,6 +352,8 @@
     max-width: 1180px;
     margin: 0 auto;
   }
+
+  #services{ scroll-margin-top: 84px; }
 
   .section-head{
     max-width: 620px;
@@ -846,14 +896,16 @@
   @media (max-width: 880px){
     .hero{
       grid-template-columns: 1fr;
-      padding-top: 36px;
-      padding-bottom: 28px;
+      padding-top: 18px;
+      padding-bottom: 4px;
       min-height: unset;
       text-align: left;
     }
-    .hero-mark-wrap{ order: -1; max-width: 320px; margin: 0 auto 10px; }
-    .hero-sub{ max-width: 100%; }
-    .section{ padding: 20px 22px 64px; }
+    .hero-mark-wrap{ order: -1; max-width: 200px; margin: 0 auto 2px; }
+    .hero-sub{ max-width: 100%; margin-bottom: 22px; }
+    .hero-note{ margin-top: 12px; }
+    .scroll-indicator{ margin-top: 4px; }
+    .section{ padding: 12px 22px 64px; }
     .check-grid{ grid-template-columns: 1fr; }
   }
 
@@ -861,9 +913,14 @@
     .navbar{ padding: 16px 20px; }
     .brand{ font-size: 16.5px; }
     .nav-contact{ font-size: 13px; }
-    .hero{ padding: 28px 20px 24px; }
-    .hero-sub{ font-size: 15.5px; }
+    .hero{ padding: 14px 20px 2px; }
+    .hero h1{ font-size: clamp(2rem, 8.4vw, 2.6rem); margin: 12px 0 14px; }
+    .hero-mark-wrap{ max-width: 168px; margin: 0 auto 0; }
+    .hero-sub{ font-size: 15.5px; margin-bottom: 18px; }
     .cta-btn{ width: 100%; justify-content: center; }
+    .hero-note{ margin-top: 10px; }
+    .scroll-indicator{ margin-top: 2px; }
+    .scroll-indicator .scroll-label{ display: none; }
     .footer-inner{ flex-direction: column; gap: 32px; }
     .modal{ max-height: 92vh; }
     .modal-head{ padding: 20px 20px 0; }
@@ -931,6 +988,13 @@
                 stroke="url(#markGrad)" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
+
+      <a href="#services" class="scroll-indicator" aria-label="Scroll down to see our services">
+        <span class="scroll-label">Scroll</span>
+        <span class="scroll-chevron-ring">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </span>
+      </a>
     </section>
 
     <!-- ============================= -->
